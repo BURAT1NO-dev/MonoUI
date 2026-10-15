@@ -636,9 +636,11 @@ function Section:AddColorPicker(o)
 	row.ClipsDescendants = true
 	RowLabel(row, o.Name or "Color")
 	local btn = RowButton(row)
-	local swatch = Create("Frame", {
-		AnchorPoint = Vector2.new(1, .5), Position = UDim2.new(1, -10, .5, 0), Size = UDim2.fromOffset(30, 16), Parent = row,
-	}, { Corner(5), Stroke("SubText") })
+    local swatch = Create("Frame", {
+        AnchorPoint = Vector2.new(1, .5),
+        Position = UDim2.new(1, -10, 0, 17), -- было: UDim2.new(1, -10, .5, 0)
+        Size = UDim2.fromOffset(30, 16), Parent = row,
+    }, { Corner(5), Stroke("SubText") })
 
 	local sv = Create("Frame", {
 		Position = UDim2.fromOffset(10, 44), Size = UDim2.new(1, -46, 0, 110), ClipsDescendants = true, Parent = row,
