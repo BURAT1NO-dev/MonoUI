@@ -35,20 +35,29 @@ local WHITE = Color3.new(1, 1, 1)
 local BLACK = Color3.new(0, 0, 0)
 
 ----------------------------------------------------------------------
--- fonts (carried over from Slate's full font vocabulary)
+-- fonts (carried over from Slate's full font vocabulary).
+-- All values resolve at load time with a graceful fallback to Gotham
+-- (always present in Roblox) so the library never crashes on older clients
+-- that don't yet ship Builder Sans / Code.
 ----------------------------------------------------------------------
+local function font(name, fallback)
+        local ok, f = pcall(function() return Enum.Font[name] end)
+        if ok and f then return f end
+        return Enum.Font[fallback or "Gotham"]
+end
+
 local FONT = {
-        Title       = Enum.Font.BuilderSansBold,
-        Heading     = Enum.Font.GothamBold,
-        Body        = Enum.Font.BuilderSans,
-        Medium      = Enum.Font.BuilderSansMedium,
-        Small       = Enum.Font.BuilderSans,
-        Micro       = Enum.Font.Gotham,
-        Value       = Enum.Font.JetBrainsMono,
-        BuilderBold = Enum.Font.BuilderSansBold,
-        GothamBold  = Enum.Font.GothamBold,
-        GothamMed   = Enum.Font.GothamMedium,
-        Gotham      = Enum.Font.Gotham,
+        Title       = font("BuilderSansBold",   "GothamBold"),
+        Heading     = font("GothamBold",        "GothamBold"),
+        Body        = font("BuilderSans",       "Gotham"),
+        Medium      = font("BuilderSansMedium", "GothamMedium"),
+        Small       = font("BuilderSans",       "Gotham"),
+        Micro       = font("Gotham",            "Gotham"),
+        Value       = font("Code",              "RobotoMono"), -- RobotoMono is the legacy monospace
+        BuilderBold = font("BuilderSansBold",   "GothamBold"),
+        GothamBold  = font("GothamBold",        "GothamBold"),
+        GothamMed   = font("GothamMedium",      "GothamMedium"),
+        Gotham      = font("Gotham",            "Gotham"),
 }
 
 local SIZE = {
